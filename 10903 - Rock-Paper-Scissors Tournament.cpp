@@ -83,8 +83,8 @@ int main(void)
 			float q = win[i] + lose[i];
 			if(q)
 			{
-				std::cout << std::fixed;
-				std::cout << std::setprecision(3) << win[i] / q << '\n';
+				cout << std::fixed;
+				cout << setprecision(3) << win[i] / q << '\n';
 			}
 			else
 				cout << "-\n";
