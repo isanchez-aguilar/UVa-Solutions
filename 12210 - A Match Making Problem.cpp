@@ -1,3 +1,7 @@
+/*
+*	User: Isanchez_Aguilar
+*	Problem: UVA 12210 - A Match Making Problem
+*/
 #include <bits/stdc++.h>
 
 using namespace std;
