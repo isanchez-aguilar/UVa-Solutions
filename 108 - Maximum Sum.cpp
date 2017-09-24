@@ -1,3 +1,7 @@
+/*
+*	User: Isanchez_Aguilar
+*	Problem: UVA 108 - Maximum Sum
+*/
 #include <bits/stdc++.h>
 
 using namespace std;
