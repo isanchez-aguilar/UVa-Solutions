@@ -22,9 +22,9 @@ inline int getShortestPerimeter(int coordinate, int visited)
 
 	int shortest = 2000000000;
 
-	for (int i = 0; i <= beepers; i++)
+	for(int i = 0; i <= beepers; ++i)
 	{
-		if (i != coordinate and not (visited & (1 << i)))
+		if(i != coordinate and not (visited & (1 << i)))
 			shortest = min(shortest, adj[coordinate][i] + getShortestPerimeter(i, visited | (1 << i)));
 	}
 	
