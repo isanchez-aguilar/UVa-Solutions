@@ -9,7 +9,6 @@ using namespace std;
 int n;
 bool visited[101];
 bool adj[101][101];
-int sortedData[101];
 
 void topologicalSort(int length)
 {
