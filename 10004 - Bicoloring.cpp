@@ -29,6 +29,7 @@ int main(void)
 
 		queue<int> nodes;
 		vector<int> color(n, -1);
+		color[0] = 0;
 		
 		nodes.push(0);
 		bool isBipartite = true;
