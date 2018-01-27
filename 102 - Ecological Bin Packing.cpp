@@ -2,7 +2,6 @@
 *	User: Isanchez_Aguilar
 *	Problem: UVA 102 - Ecological Bin Packing
 */
-
 #include <bits/stdc++.h>
 
 using namespace std;
