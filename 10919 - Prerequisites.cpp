@@ -10,22 +10,25 @@ int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	int freddieCourses;
+
 	int categories;
-	vector<int> idCourses(100);
-	vector<int>::iterator begin = idCourses.begin();
+	int freddieCourses;
+	bool availableCourse[10000];
 	// Read while freddieCourse is nonzero.
-	while(cin >> freddieCourses && freddieCourses)
+	while(cin >> freddieCourses and freddieCourses)
 	{
+		memset(availableCourse, false, sizeof availableCourse);
 		// Read the number of categories.
 		cin >> categories;
 		// Read the id courses.
 		for(int i = 0; i < freddieCourses; ++i)
-			cin >> idCourses[i];
-		// Sort the ids.
-		sort(begin, begin + freddieCourses);
+		{
+			int id;
+			cin >> id;
+			availableCourse[id] = true;
+		}
 		// Assume that is possible to graduate.
-		bool possible = 1;
+		bool possible = true;
 		// Read the categories.
 		while(categories--)
 		{
@@ -39,11 +42,11 @@ int main(void)
 				// Read the id of current course.
 				cin >> currentCourse;
 				// If you have not yet completed the course minimum then search the current.
-				if(minimumCourses && possible && binary_search(begin, begin + freddieCourses, currentCourse))
+				if(availableCourse[currentCourse])
 					--minimumCourses;
 			}
 			// If the minum courses is bigger than zero then you can not graduate.
-			if(minimumCourses)
+			if(minimumCourses > 0)
 				possible = 0;
 		}
 		// Evaluate possible.
