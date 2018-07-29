@@ -46,7 +46,6 @@ public:
 						{
 							int i = 0;
 							int j = 0;
-							//cout << a.name << endl;
 							while (i < name.length() and j < a.name.length())
 							{
 								if (tolower(name[i]) < tolower(a.name[j]))
@@ -54,7 +53,6 @@ public:
 
 								if (tolower(name[i++]) > tolower(a.name[j++]))
 									return false;
-								//cout << name[i - 1] << " " << a.name[j - 1] << endl;
 							}
 
 							return i < j;
