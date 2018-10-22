@@ -6,57 +6,55 @@
 
 using namespace std;
 
+int h[100];
+bitset<3650> days;
+int currentDay[100];
+
 int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 
 	int testCases;
-	bitset<3650> days;
-
 	cin >> testCases;
-	while(testCases--)
+
+	while (testCases--)
 	{
 		int simulationDays;
 		int politicalParties;
 		cin >> simulationDays >> politicalParties;
 		
-		vector<int> h(politicalParties);
-		vector<int> currentDay(politicalParties, -1);
+		fill(currentDay, currentDay + politicalParties, -1);
 
-		for(int i = 0; i < politicalParties; ++i)
+		for (int i = 0; i < politicalParties; ++i)
 			cin >> h[i];
 
 		int lostDays = 0;
-		bool available = 1;
+		bool available = true;
 
-		while(available)
+		while (available)
 		{
-			available = 0;
-			for(int i = 0; i < politicalParties; ++i)
+			available = false;
+			
+			for (int i = 0; i < politicalParties; ++i)
 			{
-				if(currentDay[i] < simulationDays - h[i])
+				if (currentDay[i] < simulationDays - h[i])
 				{
-					available = 1;
+					available = true;
 					currentDay[i] += h[i];
 					int d = currentDay[i] % 7;
-					//cout << i << "," << currentDay[i] << " " << d;
-					if(d != 5 && d != 6 && !days[currentDay[i]])
+					
+					if (d != 5 and d != 6 and not days[currentDay[i]])
 					{
-						//cout << "+";
-						days[currentDay[i]] = 1;
 						++lostDays;						
+						days.set(currentDay[i], true);
 					}
-					//cout << endl;
 				}
 			}
 		}
 
-		if(testCases)
-		{
-			for(int i = 0; i < simulationDays; ++i)
-				days[i] = 0;
-		}
+		if (testCases)
+			days.reset();
 		
 		cout << lostDays << "\n";
 	}
