@@ -6,40 +6,36 @@
 
 using namespace std;
 
+bool differences[3000];
+
 int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	// Variable to save the number of numbers.
-	int numbers;
-	// Read while not EOF
-	while(cin >> numbers)
+
+	int n;
+	while (cin >> n)
 	{
-		// Array to check the difference;
-		vector<bool> differences(numbers - 1); 
-		// Variables to make the difference.
-		int lastNumber;
-		int currentNumber;
-		// Read the first number;
-		cin >> lastNumber;
-		// Read the next numbers to make the difference.
-		for(int i = 1; i < numbers; ++i)
+		int previous = -3000;
+		fill(differences, differences + n, false);
+		
+		for (int i = 0; i < n; ++i)
 		{
-			// Read the current number.
-			cin >> currentNumber;
-			// Get the absolute value of difference between the last and current number.
-			int difference = abs(lastNumber - currentNumber);
-			// If the difference is on range then save.
-			if(difference > 0 && difference < numbers)
-				differences[difference - 1] = 1;
-			// Update the new current number.
-			lastNumber = currentNumber;
+			int current;
+			cin >> current;
+			int difference = abs(current - previous);
+
+			if (difference > 0 and difference < n)
+				differences[difference] = true;
+			
+			previous = current;
 		}
-		// If all differences between 1 to n - 1 are the is a Jolly
-		if(count(differences.begin(), differences.end(), 1) == numbers - 1)
+
+		if (count(differences, differences + n, true) == n - 1)
 			cout << "Jolly\n";
 		else
 			cout << "Not jolly\n";
 	}
+
 	return 0;
 }
