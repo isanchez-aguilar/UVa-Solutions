@@ -6,98 +6,91 @@
 
 using namespace std;
 
-// Class to save books' data.
-class Book
-{
-public:
-	string title;
-	string author;
-	Book(string _title, string _author):title(_title), author(_author){}
-	inline bool operator<(Book a) { 
-		if(this->author == a.author)
-			return this->title < a.title;
-		return this->author < a.author;
-	}
-};
-
-typedef vector<Book> vB;
-typedef vector<bool> vb;
-typedef vector<string> vs;
-
 int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	vB shelf;
-	string data;
+	
+	string line;
 	map<string, int> books;
+	vector< pair<string, string> > shelf;
+	
 	// Read the books.
-	while(getline(cin, data) && data[0] != 'E')
+	while (getline(cin, line) and line[0] != 'E')
 	{
-		int i = 1;
-		string title = "";
-		string author = "";
-		int length = data.length() - 1;
+		string title;
+		string author;
 
-		for(; data[i] != '\"'; ++i)
-			title += data[i];
+		istringstream in(line);
+
+		in.ignore(1, '"');
+		getline(in, title, '"');
 		
-		i += 5;
+		// Ignore first space.
+		in.ignore(1, ' ');
+		// Ignore 'by' with second space.
+		in.ignore(2, ' ');
 
-		for(; i < length; ++i)
-			author += data[i];
-		shelf.push_back(Book(title, author));
+		getline(in, author, '"');
+		shelf.push_back(make_pair(author, title));
 	}
+
 	// Sort books by author.
-	int sizeShelf = shelf.size();
+	int shelfSize = shelf.size();
 	sort(shelf.begin(), shelf.end());
+	
 	// Insert sorted books on map with title as key.
-	for(int i = 0; i < sizeShelf; ++i)
-		books[shelf[i].title] = i;
+	for (int i = 0; i < shelfSize; ++i)
+		books[shelf[i].second] = i;
+	
 	// Created book status.
-	vb borrowed(sizeShelf);
-	vb returned(sizeShelf);
+	vector<bool> borrowed(shelfSize);
+	vector<bool> returned(shelfSize);
+	
 	// Read actions.
-	while(getline(cin, data) && data[0] != 'E')
+	while (getline(cin, line) and line[0] != 'E')
 	{
-		int i;
-		int size;
-		string title = "";
+		string title;
 		int previousBook = -1;
-		int length = data.length() - 1;	
 		
-		if(data[0] != 'S')
+		istringstream in(line);
+
+		if (line[0] != 'S')
 		{
-			for(i = 8; i < length; ++i)
-				title += data[i];
+			in.ignore(8, '\"');
+			getline(in, title, '\"');
 		}
 		
-		switch(data[0])
+		switch (line[0])
 		{
 			case 'B':
-				borrowed[books[title]] = 1;
-				returned[books[title]] = 0;
+				borrowed[books[title]] = true;
+				returned[books[title]] = false;
 			break;
+
 			case 'R':
-				returned[books[title]] = 1;
+				returned[books[title]] = true;
 			break;
+			
 			default:
-				for(int i = 0; i < sizeShelf; ++i)
+				for (int i = 0; i < shelfSize; ++i)
 				{
-					if(returned[i])
+					if (returned[i])
 					{
-						if(previousBook != -1)
-							cout << "Put \"" << shelf[i].title << "\" after \"" << shelf[previousBook].title << "\"\n";
+						if (previousBook != -1)
+							cout << "Put \"" << shelf[i].second << "\" after \"" << shelf[previousBook].second << "\"\n";
 						else
-							cout << "Put \"" << shelf[i].title << "\" first\n";
+							cout << "Put \"" << shelf[i].second << "\" first\n";
 						
-						returned[i] = 0;
-						borrowed[i] = 0;
+						returned[i] = false;
+						borrowed[i] = false;
+						
 						previousBook = i;
 					}
-					else if(!borrowed[i])
+					else if (not borrowed[i])					
 						previousBook = i;
 				}
+
 				cout << "END\n";
 		}
 	}
