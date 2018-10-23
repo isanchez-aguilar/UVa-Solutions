@@ -6,6 +6,8 @@
 
 using namespace std;
 
+int blocksData[50];
+
 int main(void)
 {
 	ios_base::sync_with_stdio(0);
@@ -13,23 +15,23 @@ int main(void)
 
 	int t = 0;
 	int blocks;
-	while(cin >> blocks && blocks)
-	{
-		int boxesNumber = 0;
-		vector<int> blocksData(blocks);
 
-		for(int i = 0; i < blocks; ++i)
+	while (cin >> blocks and blocks)
+	{
+		int totalBoxes = 0;
+
+		for (int i = 0; i < blocks; ++i)
 		{
 			cin >> blocksData[i];
-			boxesNumber += blocksData[i];
+			totalBoxes += blocksData[i];
 		}
 		
-		int maxBlocks = boxesNumber / blocks;
 		int minMoves = 0;
+		int maxBlocks = totalBoxes / blocks;
 		
-		for(int i = 0; i < blocks; ++i)
+		for (int i = 0; i < blocks; ++i)
 		{
-			if(maxBlocks < blocksData[i])
+			if (maxBlocks < blocksData[i])
 				minMoves += blocksData[i] - maxBlocks;
 		}
 		
