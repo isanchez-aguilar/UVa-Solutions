@@ -185,14 +185,13 @@ public:
 
 		if (onPerimeter(p))
 			return -1;
-		
-		int direction = getDirection(vertex[0], vertex[1], p);
 
 		for (int i = 1; i < vertex.size(); ++i)
 		{
 			if (getDirection(vertex[i - 1], p, vertex[i]) != -1)
 				return 0;
 		}
+		
 		return 1;
 	}
 };
