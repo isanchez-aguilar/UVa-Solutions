@@ -9,32 +9,26 @@ int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
-	// Variable to save the initial position.
-	int initialPosition;
 	// Variables to save the combination.
 	int digit1;
 	int digit2;
 	int digit3;
-	// Read while not EOF.
-	while(scanf("%d %d %d %d", &initialPosition, &digit1, &digit2, &digit3) != EOF)
+	// Variable to save the initial position.
+	int initialPosition;
+	// Read If any number is different from zero or while not EOF.
+	while(cin >> initialPosition >> digit1 >> digit2 >> digit3 and (initialPosition != 0 or digit1 != 0 or digit2 != 0 or digit3 != 0))
 	{
-		// If any number is different from zero.
-		if(initialPosition | digit1 | digit2 | digit3)
-		{
-			// Variable to save the rotations.
-			int degrees = 120;
-			// Turn clockwise.
-			degrees += (initialPosition - digit1 + (initialPosition - digit1 < 0 ? 40: 0));
-			// Turn counter-clockwise.
-			degrees += (digit2 - digit1 + (digit2 - digit1 < 0 ? 40: 0));
-			// Turn clockwise.
-			degrees += (digit2 - digit3 + (digit2 - digit3 < 0 ? 40: 0));
-			// Print the number of rotated degrees.
-			printf("%d\n", degrees * 9);
-		}
-		// If all numbers are zero then finish execution.
-		else
-			return 0;
+		// Variable to save the rotations.
+		int degrees = 120;
+		// Turn clockwise.
+		degrees += (initialPosition - digit1 + (initialPosition - digit1 < 0 ? 40: 0));
+		// Turn counter-clockwise.
+		degrees += (digit2 - digit1 + (digit2 - digit1 < 0 ? 40: 0));
+		// Turn clockwise.
+		degrees += (digit2 - digit3 + (digit2 - digit3 < 0 ? 40: 0));
+		// Print the number of rotated degrees.
+		cout << degrees * 9 << "\n";
 	}
+	
 	return 0;
 }
