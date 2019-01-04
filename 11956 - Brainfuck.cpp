@@ -3,73 +3,79 @@
 *   Problem: UVA 11956 - Brainfuck
 */
 #include <cstdio>
+#include <cstring>
 
-#define MAX_SIZE 100001
 #define SIZE 100
+#define MAX_SIZE 100001
+
+short memory[SIZE];
+char commands[MAX_SIZE];
 
 int main(void)
 {
-    char commands[MAX_SIZE];
-    int testCases;
-    int current;
-	int memory[SIZE];
+	int testCases;
 	// Read the number of test cases.
-    scanf("%d", &testCases);
+	scanf("%d", &testCases);
 	// Read the command of the cases.
-    for (int i = 1; i <= testCases; ++i)
-    {
-		// Initialize the memory.
-        for (int j = 0; j < SIZE; ++j)
-            memory[j] = 0;
+	for (int i = 1; i <= testCases; ++i)
+	{
+		if (i > 1)
+			memset(memory, 0, sizeof memory);
+
 		// Current position of pointer.
-        current = 0;
+		int currentByte = 0;
+		
 		// Read the commands.
-        scanf("%s", commands);
+		scanf("%s", commands);
+		
 		// Execute the commands.
-        for (int j = 0; commands[j]; ++j)
-        {
+		for (int j = 0; commands[j] != '\0'; ++j)
+		{
 			// Evaluate the command.
-			switch (commands[i])
-            {
+			switch (commands[j])
+			{
 				// If It increments the pointer.
 				case '>':
 					// Increment the pointer position.
-					++current;
+					++currentByte;
 					// If the position is on the SIZE then set on position 0.
-					if (current == SIZE)
-						current = 0;
+					if (currentByte == SIZE)
+						currentByte = 0;
 					break;
 				// If It decrements the pointer.
 				case '<':
 					// Decrement the pointer position.
-					--current;
+					--currentByte;
 					// If the position is negative then set on position 99.
-					if (current == -1)
-						current = 99;
+					if (currentByte == -1)
+						currentByte = 99;
 					break;
-				// If It increments value of current byte.
+				// If It increments value of currentByte byte.
 				case '+':
-					// Increment the value of the current byte.
-					++memory[current];
+					// Increment the value of the currentByte byte.
+					++memory[currentByte];
 					// If the value is equal to 256 then set 0.
-					if (memory[current] == 256)
-						memory[current] = 0;
+					if (memory[currentByte] == 256)
+						memory[currentByte] = 0;
 					break;
-				// If It decrements value of current byte.
+				// If It decrements value of currentByte byte.
 				case '-':
-					// Increment the value of the current byte.
-					--memory[current];
+					// Increment the value of the currentByte byte.
+					--memory[currentByte];
 					// If the value is negative then set 255.
-					if (memory[current] == -1)
-						memory[current] = 255;
+					if (memory[currentByte] == -1)
+						memory[currentByte] = 255;
 			}
-        }
-        // Print the number of test case.
-        printf("Case %d:", i);
-        // Print the memory value of the array.
-        for (int j = 0; j < SIZE; ++j)
-            printf(" %02X", memory[j]);
-        printf("\n");
-    }
+		}
+		
+		// Print the number of test case.
+		printf("Case %d:", i);
+		
+		// Print the memory value of the array.
+		for (int j = 0; j < SIZE; ++j)
+			printf(" %02X", memory[j]);
+
+		printf("\n");
+	}
 	return 0;
 }
