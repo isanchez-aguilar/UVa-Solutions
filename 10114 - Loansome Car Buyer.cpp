@@ -18,10 +18,8 @@ int main(void)
 	// Vector to save the depreciations.
 	vector<double> depreciationValue(101);
 	// While the months are positive.
-	while(cin >> months >> downPayment >> loan >> depreciations)
+	while(cin >> months >> downPayment >> loan >> depreciations and months >= 0)
 	{
-		if(months < 0)
-			return 0;
 		// Read the depreciations while there is.
 		while(depreciations--)
 		{
