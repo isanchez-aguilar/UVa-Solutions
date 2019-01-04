@@ -14,7 +14,6 @@ int main(void)
 	int testCases;
 	// Read the number of test cases.
 	cin >> testCases;
-	// 
 	for(int i = 1; i <= testCases; ++i)
 	{
 		// Initialize the max to zero.
