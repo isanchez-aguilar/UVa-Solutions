@@ -1,6 +1,6 @@
 /*
 *	User: Isanchez_Aguilar
-*	Problem: UVA 1230 - MODEX
+*	Problem: UVA 11287 - Pseudoprime Numbers
 */
 #include <bits/stdc++.h>
 
@@ -16,13 +16,25 @@ inline long long modPow(long long a, long long p, long long m)
 		if (p & 1)
 			result = result * a % m;
 
-		p >>= 1;
 		a = a * a % m;
+		p >>= 1;
 	}
 
 	return result % m;
 }
 
+inline bool isPrime(long long n)
+{
+	long long sqrtN = sqrt(n);
+
+	for (long long i = 2; i <= sqrtN; ++i)
+	{
+		if (n % i == 0)
+			return false;
+	}
+
+	return true;
+}
 
 int main(void)
 {
@@ -31,16 +43,12 @@ int main(void)
 
 	long long p;
 	long long a;
-	long long m;
-	int testCases;
-
-	cin >> testCases;
-
-	while (testCases--)
+	while (cin >> p >> a and (p or a))
 	{
-		cin >> a >> p >>  m;
-
-		cout << modPow(a, p, m) << "\n";
+		if (a == modPow(a, p, p) and not isPrime(p))
+			cout << "yes\n";
+		else
+			cout << "no\n";
 	}
 	
 	return 0;

@@ -1,24 +1,18 @@
-/*
-*	User: Isanchez_Aguilar
-*	Problem: UVA 424 - Integer Inquiry
-*/
 import java.util.Scanner;
 import java.math.BigInteger;
 
-public class UVA424 {
+class Main {
 	public static void main(String[] args) {
+
+		BigInteger n;
+		BigInteger sum = BigInteger.ZERO;
 		Scanner in = new Scanner(System.in);
-		BigInteger ans = new BigInteger("0");
-
-		while (in.hasNextBigInteger()) {
-			BigInteger n = in.nextBigInteger();
-			
-			if (n.equals(BigInteger.ZERO))
-				break;
-			
-			ans = ans.add(n);
+		
+		while (in.hasNext()) {
+			n = in.nextBigInteger();
+			sum = sum.add(n);
 		}
-
-		System.out.println(ans);
+		
+		System.out.println(sum);
 	}
 }

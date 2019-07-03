@@ -1,6 +1,6 @@
 /*
 *	User: Isanchez_Aguilar
-*	Problem: UVA 374 - Big Mod
+*	Problem: UVA 10127 - Ones
 */
 #include <bits/stdc++.h>
 
@@ -28,13 +28,23 @@ int main(void)
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 
-	int a;
-	int p;
-	int m;
+	int n;
 	
-	while (cin >> a >> m >> p)
-		cout << modPow(a, m, p) << "\n";
-	
+	while (cin >> n)
+	{
+		int digits = 0;
+		int currentMod = 0;
+			
+		do
+		{
+			++digits;
+			//cout << currentMod << " ";
+			currentMod = ((currentMod * 10 % n) + 1) % n; 
+			//cout << currentMod << endl;
+		}while (currentMod > 0);
+		
+		cout << digits << "\n";
+	}
 
 	return 0;
 }
