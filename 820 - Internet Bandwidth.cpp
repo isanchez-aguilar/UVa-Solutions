@@ -2,105 +2,125 @@
 *	User: Isanchez_Aguilar
 *	Problem: UVA 820 - Internet Bandwidth
 */
-
 #include <bits/stdc++.h>
 
-#define INF 1e9
+#define INF INT_MAX
 
 using namespace std;
 
-typedef vector<int> vi;
-typedef pair<int, int> ii;
-typedef vector<ii> vii;
+class Graph {
+public:
+	int nodes;
+	vector< vector<int> > adj;
+	vector< vector<int> > capacity;
 
-int f;
-int s;
-int t;
-vi parent;
-int adj[101][101];
+	Graph(){}
 
-void augment(int v, int minEdge)
-{
-	if (s == v)
+	Graph(int n):nodes(n), adj(n), capacity(n, vector<int>(n)){}
+
+	inline void addEdge(const int& u, const int& v, int cost)
 	{
-		f = minEdge;
-		return;
-	}
-	else if (parent[v])
-	{
-		augment(parent[v], min(minEdge, adj[parent[v]][v]));
-		adj[parent[v]][v] -= f;
-		adj[v][parent[v]] += f;
+		if (capacity[u][v] == 0)
+		{
+			adj[u].push_back(v);
+			adj[v].push_back(u);
+		}
+
+		capacity[u][v] += cost;
+		capacity[v][u] += cost;
 	}
 
-	return;
-}
+	inline int getMaxFlow(const int& source, const int& sink)
+	{
+		int flow = 0;
+		int newFlow = 0;
+		vector<int> parents(nodes);
+
+		while (newFlow = getFlow(source, sink, parents))
+			flow += newFlow;
+
+		return flow;
+	}
+
+	inline int getFlow(const int& source, const int& sink, vector<int>& parents)
+	{
+		int maxFlow = 0;
+		fill(begin(parents), end(parents), -1);
+
+		parents[source] = source;
+		queue< pair<int, int> > bfs;
+
+		bfs.push(make_pair(source, INF));
+
+		while (not bfs.empty())
+		{
+			const pair<int, int>& data = bfs.front();
+			int u = data.first, flow = data.second;
+			bfs.pop();
+
+			if (u == sink)
+			{
+				maxFlow = flow;
+				break;
+			}
+
+			for (int v : adj[u])
+			{
+				if (parents[v] == -1 and capacity[u][v] > 0)
+				{
+					parents[v] = u;
+					int newFlow = min(flow, capacity[u][v]);
+					bfs.push(make_pair(v, newFlow));
+				}
+			}
+		}
+
+		if (maxFlow > 0)
+		{
+			int currNode = sink;
+
+			// Augmenting path.
+			while (currNode != source)
+			{
+				int prevNode = parents[currNode];
+				
+				capacity[currNode][prevNode] += maxFlow;
+				capacity[prevNode][currNode] -= maxFlow;
+
+				currNode = prevNode;
+			}
+		}
+
+		return maxFlow;
+	}
+};
 
 int main(void)
 {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 
-	int n;
-	int testCase = 0;
-
-	while (cin >> n and n)
+	int network = 1;
+	int nodes, source, sink, edges;
+	
+	while (cin >> nodes and nodes > 0)
 	{
-		int m;
+		cin >> source >> sink >> edges;
 
-		cin >> s >> t >> m;
-		memset(adj, 0, sizeof adj);
+		--source, --sink;
+		Graph model(nodes);
 
-		for (int i = 0; i < m; ++i)
+		while (edges--)
 		{
-			int u;
-			int v;
-			int c;
-			cin >> u >> v >> c;
+			int u, v, cost;
+			cin >> u >> v >> cost;
 
-			adj[u][v] += c;
-			adj[v][u] += c;
+			model.addEdge(--u, --v, cost);
 		}
 
-		int mf = 0;
-		while (true)
-		{
-			f = 0;
-			queue<int> node;
-			vi dist(n + 1, INF);
-			
-			dist[s] = 0;
-			node.push(s);
-			parent.assign(n + 1, 0);
-
-			while (not node.empty())
-			{
-				int u = node.front();
-				node.pop();
-
-				if (u == t)
-					break;
-
-				for (int v = 1; v <= n; ++v)
-				{
-					if (adj[u][v] > 0 and dist[v] == INF)
-					{
-						node.push(v);
-						parent[v] = u;
-						dist[v] = dist[u] + 1;
-					}
-				}
-			}
-
-			augment(t, INF);
-
-			if (not f)
-				break;
-
-			mf += f;
-		}
-
-		cout << "Network " << ++testCase << "\n"; 
-		cout << "The bandwidth is " << mf << ".\n\n";
+		cout << "Network " << network++ << "\n";
+		cout << "The bandwidth is " << model.getMaxFlow(source, sink) << ".\n\n"; 
 	}
+	
+	return 0;
 }
